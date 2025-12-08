@@ -4,12 +4,16 @@
   "description": "Web3 MERN Stack Developer Assessment - AI Health Chains",
   "private": true,
   "scripts": {
-    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "backend": "cd backend && npm start",
-    "frontend": "cd frontend && npm start",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    "install-all": "$npm_execpath install && cd backend && $npm_execpath install && cd ../frontend && $npm_execpath install",
+    "backend": "cd backend && $npm_execpath start",
+    "frontend": "cd frontend && $npm_execpath start",
+    "dev": "concurrently \"$npm_execpath run backend\" \"$npm_execpath run frontend\""
   },
-  "keywords": ["web3", "mern", "assessment"],
+  "keywords": [
+    "web3",
+    "mern",
+    "assessment"
+  ],
   "author": "AI Health Chains",
   "license": "ISC",
   "devDependencies": {
