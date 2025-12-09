@@ -1,7 +1,6 @@
 .patient-list-container {
   padding: 2rem;
   --infoColor: #666;
-  --dropShadow: drop-shadow(.15rem .2rem 0 color-mix(in srgb, var(--infoColor), transparent 66%));
 }
 
 .patient-list-header {
@@ -133,7 +132,6 @@
   transition: all 0.3s;
   min-width: 2.5rem;
   font-size: 0.9rem;
-  filter: var(--dropShadow);
 }
 
 .pagination-btn:hover:not(:disabled) {
