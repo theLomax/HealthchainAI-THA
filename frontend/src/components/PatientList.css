@@ -1,6 +1,5 @@
 .patient-list-container {
   padding: 2rem;
-  --infoColor: #666;
 }
 
 .patient-list-header {
@@ -35,7 +34,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
-  align-items: center;
 }
 
 .patient-card {
@@ -45,14 +43,19 @@
   padding: 1.5rem;
   cursor: pointer;
   transition: all 0.3s;
-  --infoGap: 0.5rem;
-  filter: var(--dropShadow);
 }
 
 .patient-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
   border-color: #667eea;
+}
+
+.patient-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
 }
 
 .patient-name {
@@ -64,41 +67,38 @@
 
 .patient-id {
   font-size: 0.85rem;
-  color: var(--infoColor);
-  margin: 0;
+  color: #666;
+  font-family: 'Courier New', monospace;
 }
 
 .patient-info {
   display: flex;
   flex-direction: column;
-  gap: var(--infoGap);
-  padding-top: var(--infoGap);
-  animation: slideDown 0.5s ease-out;
+  gap: 0.5rem;
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.patient-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
 }
 
+.patient-wallet {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  font-size: 0.85rem;
+  color: #999;
+  font-family: 'Courier New', monospace;
+  word-break: break-all;
+}
 
 .loading, .error {
   text-align: center;
   padding: 3rem;
   font-size: 1.1rem;
-  grid-column: 1 / -1;
-}
-
-.mono {
-  font-size: 0.85rem;
-  color: #666;
-  font-family: 'Courier New', monospace;
 }
 
 .error {
@@ -120,57 +120,30 @@
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid #e0e0e0;
-  flex-wrap: wrap;
 }
 
-.pagination-btn {
+.pagination button {
   padding: 0.5rem 1rem;
   border: 1px solid #e0e0e0;
   background: white;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s;
-  min-width: 2.5rem;
-  font-size: 0.9rem;
 }
 
-.pagination-btn:hover:not(:disabled) {
+.pagination button:hover:not(:disabled) {
   border-color: #667eea;
   color: #667eea;
-  background-color: #f5f7ff;
 }
 
-.pagination-btn:disabled {
+.pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-.pagination-btn.active {
-  background-color: #667eea;
-  color: white;
-  border-color: #667eea;
-  font-weight: 600;
-}
-
-.pagination-btn.active:hover {
-  background-color: #5568d3;
-}
-
-.pagination-prev,
-.pagination-next {
-  font-weight: 500;
-}
-
-.pagination-ellipsis {
-  padding: 0 0.5rem;
-  color: #999;
-  user-select: none;
 }
 
 .pagination-info {
   color: #666;
   font-size: 0.9rem;
-  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -182,5 +155,3 @@
     min-width: 100%;
   }
 }
-
-

@@ -185,11 +185,10 @@ const ConsentManagement = ({ account }) => {
             <div key={consent.id} className="consent-card">
               <div className="consent-card-header">
                 <div className="consent-main-info">
-                  <h3 className="consent-purpose">{consent.purpose}</h3>
+                  <h3 className="consent-purpose">{consent.purpose} <span className={`consent-status ${consent.status}`}>{consent.status}
+                </span></h3>
+                  
                 </div>
-                <span className={`consent-status ${consent.status}`}>
-                  {consent.status}
-                </span>
               </div>
 
               <div className="consent-details">

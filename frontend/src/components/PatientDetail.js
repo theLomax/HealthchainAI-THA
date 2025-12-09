@@ -90,35 +90,37 @@ const PatientDetail = ({ patientId, onBack }) => {
                 <div key={record.id} className="record-card">
                   <div className="record-header">
                     <div>
-                      <h3 className="record-title">{record.title}</h3>
-                      <span className={`record-type ${record.type.toLowerCase().replace(' ', '-')}`}>
-                        {record.type}
-                      </span>
+                      <h3 className="record-title">{record.title}  <span className={`record-type ${record.type.toLowerCase() === 'lab results' 
+                        ? 'lab'
+                        : record.type.toLowerCase().replace(' ', '-')
+                      }`}>
+                      {record.type}
+                      </span></h3>
                     </div>
-                    <span className={`record-status status-${record.status}`}>
+                    <span className={`record-status ${record.status}`}>
                       {record.status}
                     </span>
                   </div>
                   <div className="record-details">
-                    <p className="record-detail-item">
-                      <span className="detail-label">Date:</span>
-                      <span className="detail-value">{new Date(record.date).toLocaleDateString()}</span>
+                    <p className="record-meta">
+                      <span className="info-label">Date: </span>
+                      <span className="info-value">{new Date(record.date).toLocaleDateString()}</span>
                     </p>
-                    <p className="record-detail-item">
-                      <span className="detail-label">Doctor:</span>
-                      <span className="detail-value">{record.doctor}</span>
+                    <p className="record-meta">
+                      <span className="info-label">Doctor: </span>
+                      <span className="info-value">{record.doctor}</span>
                     </p>
-                    <p className="record-detail-item">
-                      <span className="detail-label">Hospital:</span>
-                      <span className="detail-value">{record.hospital}</span>
+                    <p className="record-meta">
+                      <span className="info-label">Hospital: </span>
+                      <span className="info-value">{record.hospital}</span>
                     </p>
                     {record.description && (
                       <p className="record-description">{record.description}</p>
                     )}
                     {record.blockchainHash && (
-                      <p className="record-detail-item blockchain-hash">
-                        <span className="detail-label">Blockchain Hash:</span>
-                        <span className="detail-value mono">{record.blockchainHash}</span>
+                      <p className="record-meta blockchain-hash">
+                        <span className="info-label">Blockchain Hash: </span>
+                        <span className="info-value wallet">{record.blockchainHash}</span>
                       </p>
                     )}
                   </div>

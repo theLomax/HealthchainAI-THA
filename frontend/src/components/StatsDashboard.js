@@ -109,7 +109,6 @@ const StatsDashboard = () => {
   return (
     <div className="stats-dashboard-container">
       <h2>Platform Statistics</h2>
-      <p className="stats-subtitle">Click on cards to visualize trends over time</p>
 
       <div className="stats-grid">
         {metrics.map((metric) => (
@@ -126,11 +125,11 @@ const StatsDashboard = () => {
         ))}
       </div>
 
-      <div className="chart-section">
+      <h2>Historical Trends</h2>
+      <div className="chart-section" style={{paddingTop: '1rem'}}>
         {selectedMetrics.length > 0 ? (
           <>
             <div className="chart-header">
-              <h3>Historical Trends</h3>
               <div className="time-range-filters">
                 <input
                   type="date"

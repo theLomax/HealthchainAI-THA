@@ -161,21 +161,10 @@
   gap: 1rem;
 }
 
-.consent-main-info {
-  flex: 1;
-}
-
 .consent-purpose {
   font-size: 1.1rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.consent-patient-id {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0;
 }
 
 .consent-status {
@@ -195,11 +184,6 @@
 .consent-status.pending {
   background: #fff3e0;
   color: #f57c00;
-}
-
-.consent-status.revoked {
-  background: #ffebee;
-  color: #c62828;
 }
 
 .consent-details {
@@ -281,86 +265,12 @@
   font-style: italic;
 }
 
-/* Additional styles for classes used in JS */
-.consent-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.detail-label {
-  font-weight: 600;
-  color: #666;
-  min-width: 100px;
-}
-
-.detail-value {
-  color: #333;
-}
-
-.mono {
-  font-family: 'Courier New', monospace;
-  font-size: 0.85rem;
-  word-break: break-all;
-  color: #667eea;
-}
-
-.signature {
-  color: #999;
-}
-
-.approve-btn {
-  background: #388e3c;
-  color: white;
-  border-color: #388e3c;
-}
-
-.approve-btn:hover {
-  background: #2e7d32;
-  color: white;
-  border-color: #2e7d32;
-}
-
-.reject-btn {
-  background: #d32f2f;
-  color: white;
-  border-color: #d32f2f;
-}
-
-.reject-btn:hover {
-  background: #c62828;
-  color: white;
-  border-color: #c62828;
-}
-
-.error {
-  color: #d32f2f;
-  text-align: center;
-  padding: 2rem;
-  background: #ffebee;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.no-consents {
-  text-align: center;
-  padding: 3rem;
-  color: #999;
-  font-style: italic;
-}
-
 @media (max-width: 768px) {
   .consent-management-container {
     padding: 1rem;
   }
 
-  .consent-header-info,
-  .consent-card-header {
+  .consent-header-info {
     flex-direction: column;
   }
 }
-
-
