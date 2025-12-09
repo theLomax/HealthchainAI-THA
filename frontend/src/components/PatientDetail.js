@@ -15,7 +15,9 @@ const PatientDetail = ({ patientId, onBack }) => {
       setLoading(true);
       setError(null);
       try {
-        // Fetch patient data and records in parallel
+        
+        // Error test for layout and styling
+        // throw new Error('Failed to load patient details - testing error state');
         const [patientData, recordsData] = await Promise.all([
           apiService.getPatient(patientId),
           apiService.getPatientRecords(patientId)
@@ -59,13 +61,10 @@ const PatientDetail = ({ patientId, onBack }) => {
       </div>
 
       <div className="patient-detail-content">
-        {/* TODO: Display patient information */}
-        {/* Show: name, email, dateOfBirth, gender, phone, address, walletAddress */}
         <div className="patient-info-section">
           <h2>Patient Information</h2>
           <h3 className='patient-name'>{patient.name}</h3>
           <div className='patient-info-grid'>
-            {/* <p className="patient-id"><span className="info-label">ID:</span> <span className="info-value">{patient.id}</span></p> */}
 
             <p className="patient-info-item"><span className="info-label">email:</span> <span className="info-value">{patient.email}</span></p>
 
@@ -77,8 +76,6 @@ const PatientDetail = ({ patientId, onBack }) => {
 
             <p className="patient-info-item patient-address"><span className="info-label">Address:</span> <span className="info-value">{patient.address}</span>
             </p>
-
-            {/* <p className="patient-info-item"><span className="info-label">Patient Since:</span> <span className="info-value">{formatYear(patient.createdAt)}</span></p> */}
 
             <p className="patient-info-item"><span className="info-label">Wallet:</span> <span className='info-value wallet'>{patient.walletAddress}</span></p>
             </div>
