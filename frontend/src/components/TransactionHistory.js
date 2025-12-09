@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './TransactionHistory.css';
 import { apiService } from '../services/apiService';
+import { useDebounce } from '../hooks/useDebounce';
 
 const TransactionHistory = ({ account }) => {
-  const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filterAddress, setFilterAddress] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [filterType, setFilterType] = useState('all');
+
+  const debouncedAddress = useDebounce(filterAddress, 300);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -14,10 +20,8 @@ const TransactionHistory = ({ account }) => {
       try {
         // Error test for layout and styling
         // throw new Error('Failed to fetch transaction history - testing error state');
-        // TODO: Call apiService.getTransactions with account address if available
-
-        const data = await apiService.getTransactions(account);
-        setTransactions(data.transactions || []);
+        const data = await apiService.getTransactions(null, 100);
+        setAllTransactions(data.transactions || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -26,7 +30,31 @@ const TransactionHistory = ({ account }) => {
     };
 
     fetchTransactions();
-  }, [account]);
+  }, []);
+
+  const filteredTransactions = useMemo(() => {
+    return allTransactions.filter(tx => {
+      // Filter by wallet address (partial match)
+      if (debouncedAddress) {
+        const addressLower = debouncedAddress.toLowerCase();
+        const matchesFrom = tx.from.toLowerCase().includes(addressLower);
+        const matchesTo = tx.to.toLowerCase().includes(addressLower);
+        if (!matchesFrom && !matchesTo) return false;
+      }
+
+      // Filter by status
+      if (filterStatus !== 'all' && tx.status !== filterStatus) {
+        return false;
+      }
+
+      // Filter by transaction type
+      if (filterType !== 'all' && tx.type !== filterType) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [allTransactions, debouncedAddress, filterStatus, filterType]);
 
   const formatAddress = (address) => {
     if (!address) return '';
@@ -62,25 +90,101 @@ const TransactionHistory = ({ account }) => {
     );
   }
 
+  const handleFilterMyWallet = () => {
+    if (account) {
+      setFilterAddress(account);
+    } else {
+      alert('Please connect your wallet first');
+    }
+  };
+
+  const handleClearFilter = () => {
+    setFilterAddress('');
+    setFilterStatus('all');
+    setFilterType('all');
+  };
+
+  const handleInputChange = (e) => {
+    setFilterAddress(e.target.value);
+  };
+
+  const isFilterActive = filterAddress || filterStatus !== 'all' || filterType !== 'all';
+
   return (
     <div className="transaction-history-container">
       <div className="transaction-header">
         <h2>Transaction History</h2>
-        {account && (
-          <div className="wallet-filter">
-            Filtering for: {formatAddress(account)}
-          </div>
-        )}
+        <div className="filter-controls">
+          <button
+            onClick={handleFilterMyWallet}
+            className="filter-button"
+            disabled={!account}
+            title={!account ? 'Connect wallet to use this feature' : 'Filter to my wallet'}
+          >
+            My Wallet
+          </button>
+          <input
+            type="text"
+            placeholder="Filter by wallet address..."
+            value={filterAddress}
+            onChange={handleInputChange}
+            className="wallet-input"
+          />
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">All Types</option>
+            <option value="consent_approval">Consent Approval</option>
+            <option value="data_access">Data Access</option>
+          </select>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">All Statuses</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="pending">Pending</option>
+          </select>
+          <button
+            onClick={handleClearFilter}
+            className="filter-button clear"
+          >
+            Clear
+          </button>
+        </div>
       </div>
 
+      {isFilterActive && (
+        <div className="active-filters">
+          {filterAddress && (
+            <span className="filter-tag">
+              Address: {formatAddress(filterAddress)}
+            </span>
+          )}
+          {filterType !== 'all' && (
+            <span className="filter-tag">
+              Type: {filterType.replace('_', ' ')}
+            </span>
+          )}
+          {filterStatus !== 'all' && (
+            <span className="filter-tag">
+              Status: {filterStatus}
+            </span>
+          )}
+        </div>
+      )}
+
       <div className="transactions-list">
-        {transactions.length === 0 ? (
+        {filteredTransactions.length === 0 ? (
           <div className="placeholder">
             <p>No transactions found</p>
-            <p>{account ? 'No transactions for this wallet address' : 'Connect your wallet to view transactions'}</p>
+            <p>{isFilterActive ? 'No transactions match your filters' : 'No transactions available'}</p>
           </div>
         ) : (
-          transactions.map((tx) => (
+          filteredTransactions.map((tx) => (
             <div key={tx.id} className="transaction-card">
               <div className="transaction-header-info">
                 <span className={`transaction-type ${tx.type}`}>

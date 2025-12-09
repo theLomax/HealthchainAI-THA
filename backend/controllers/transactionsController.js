@@ -9,9 +9,10 @@ const getTransactions = async (req, res) => {
     let transactions = data.transactions || [];
     
     if (walletAddress) {
-      transactions = transactions.filter(t => 
-        t.from.toLowerCase() === walletAddress.toLowerCase() ||
-        t.to.toLowerCase() === walletAddress.toLowerCase()
+      const addressLower = walletAddress.toLowerCase();
+      transactions = transactions.filter(t =>
+        t.from.toLowerCase().includes(addressLower) ||
+        t.to.toLowerCase().includes(addressLower)
       );
     }
     
