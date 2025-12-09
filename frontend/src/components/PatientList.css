@@ -34,6 +34,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
+  align-items: center;
 }
 
 .patient-card {
@@ -43,19 +44,14 @@
   padding: 1.5rem;
   cursor: pointer;
   transition: all 0.3s;
+  --infoGap: 0.5rem;
+  --infoColor: #666;
 }
 
 .patient-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
   border-color: #667eea;
-}
-
-.patient-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  margin-bottom: 1rem;
 }
 
 .patient-name {
@@ -65,18 +61,36 @@
   margin-bottom: 0.25rem;
 }
 
+.patient-id {
+  font-size: 0.85rem;
+  color: var(--infoColor);
+  margin: 0;
+}
+
 .patient-info {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--infoGap);
+  padding-top: var(--infoGap);
+  animation: slideDown 0.5s ease-out;
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .patient-info-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--infoGap);
   font-size: 0.9rem;
-  color: #666;
+  color: var(--infoColor);
 }
 
 .patient-address {
@@ -97,6 +111,7 @@
   text-align: center;
   padding: 3rem;
   font-size: 1.1rem;
+  grid-column: 1 / -1;
 }
 
 .mono {

@@ -11,6 +11,7 @@ const PatientList = ({ onSelectPatient }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pagination, setPagination] = useState(null);
+  const [expandedCards, setExpandedCards] = useState(new Set());
   const debouncedSearchTerm = useDebounce(searchTerm, 350);
 
   // TODO: Implement the fetchPatients function
@@ -54,6 +55,18 @@ const PatientList = ({ onSelectPatient }) => {
   // Add a debounce or handle search input changes
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const toggleCardExpansion = (patientId) => {
+    setExpandedCards(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(patientId)) {
+        newSet.delete(patientId);
+      } else {
+        newSet.add(patientId);
+      }
+      return newSet;
+    });
   };
 
   const handlePageChange = (newPage) => {
@@ -143,31 +156,36 @@ const PatientList = ({ onSelectPatient }) => {
         ) : error ? (
           <div className="error">Error: {error}</div>
         ) : patients && patients.length > 0 ? (
-          patients.map((patient) => (
-            <div
-              key={patient.id}
-              className="patient-card"
-              onClick={() => onSelectPatient(patient.id)}
-            >
-              <h3 className="patient-name">{patient.name}</h3>
-              <div className="patient-info">
-                <p className="patient-info-item patient-id">ID: <span className="value">{patient.id}</span></p>
-                <p className="patient-info-item">Age: {calculateAge(patient.dateOfBirth)}</p>
-                <p className="patient-info-item">Gender: {patient.gender}</p>
-                <p className="patient-info-item">email: {patient.email}</p>
-                <p className="patient-info-item">Phone: {patient.phone}</p>
-                <p className="patient-info-item patient-address">
-                  Address: {patient.address.split(', ').map((part, index, array) => (
-                    <span key={index}>
-                      {part}
-                      {index < array.length - 1 && <>,<br /></>}
-                    </span>
-                  ))}
-                </p>   
-                <p className="patient-info-item">Member Since: {formatYear(patient.createdAt)}</p>
+          patients.map((patient) => {
+            const isExpanded = expandedCards.has(patient.id);
+            return (
+              <div
+                key={patient.id}
+                className={`patient-card ${isExpanded ? 'expanded' : 'collapsed'}`}
+                onClick={() => toggleCardExpansion(patient.id)}
+              >
+                <h3 className="patient-name">{patient.name}</h3>
+                <p className="patient-id">ID: <span className="value">{patient.id}</span></p>
+                {isExpanded && (
+                  <div className="patient-info">
+                    <p className="patient-info-item">Age: {calculateAge(patient.dateOfBirth)}</p>
+                    <p className="patient-info-item">Gender: {patient.gender}</p>
+                    <p className="patient-info-item">email: {patient.email}</p>
+                    <p className="patient-info-item">Phone: {patient.phone}</p>
+                    <p className="patient-info-item patient-address">
+                      Address: {patient.address.split(', ').map((part, index, array) => (
+                        <span key={index}>
+                          {part}
+                          {index < array.length - 1 && <>,<br /></>}
+                        </span>
+                      ))}
+                    </p>
+                    <p className="patient-info-item">Member Since: {formatYear(patient.createdAt)}</p>
+                  </div>
+                )}
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="placeholder">
             <p>No patients found.</p>
