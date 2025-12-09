@@ -71,7 +71,7 @@
   gap: 0.5rem;
 }
 
-.patient-id, .patient-info-item {
+.patient-info-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;

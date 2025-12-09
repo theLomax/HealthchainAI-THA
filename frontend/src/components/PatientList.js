@@ -97,8 +97,8 @@ const PatientList = ({ onSelectPatient }) => {
               onClick={() => onSelectPatient(patient.id)}
             >
               <h3 className="patient-name">{patient.name}</h3>
-              <p className="patient-id">ID: {patient.id}</p>
               <div className="patient-info">
+                <p className="patient-info-item patient-id">ID: <span className="value">{patient.id}</span></p>
                 <p className="patient-info-item">Age: {calculateAge(patient.dateOfBirth)}</p>
                 <p className="patient-info-item">Gender: {patient.gender}</p>
                 <p className="patient-info-item">email: {patient.email}</p>
