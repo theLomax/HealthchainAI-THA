@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './PatientList.css';
 import { apiService } from '../services/apiService';
+import { useDebounce } from '../hooks/useDebounce';
+import { calculateAge, formatYear } from '../utils/dateUtils';
 
 const PatientList = ({ onSelectPatient }) => {
   const [patients, setPatients] = useState([]);
@@ -9,6 +11,7 @@ const PatientList = ({ onSelectPatient }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pagination, setPagination] = useState(null);
+  const debouncedSearchTerm = useDebounce(searchTerm, 350);
 
   // TODO: Implement the fetchPatients function
   // This function should:
@@ -16,26 +19,41 @@ const PatientList = ({ onSelectPatient }) => {
   // 2. Update the patients state with the response data
   // 3. Update the pagination state
   // 4. Handle loading and error states
-  const fetchPatients = async () => {
-    // Your implementation here
+  const fetchPatients = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       // TODO: Call API and update state
+      const data = await apiService.getPatients({
+        page: currentPage,
+        limit: 10,
+        search: debouncedSearchTerm,
+      });
+      setPatients(data.patients || []);
+      setPagination(data.pagination || null);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, debouncedSearchTerm]);
 
   useEffect(() => {
     fetchPatients();
-  }, [currentPage, searchTerm]);
+  }, [fetchPatients]);
+
+  // Reset to the first page whenever a new search is performed
+  useEffect(() => {
+    // We check debouncedSearchTerm to avoid resetting on initial load
+    if (debouncedSearchTerm !== '') {
+      setCurrentPage(1);
+    }
+  }, [debouncedSearchTerm]);
 
   // TODO: Implement search functionality
   // Add a debounce or handle search input changes
   const handleSearch = (e) => {
-    // Your implementation here
+    setSearchTerm(e.target.value);
   };
 
   if (loading) {
@@ -58,12 +76,12 @@ const PatientList = ({ onSelectPatient }) => {
     <div className="patient-list-container">
       <div className="patient-list-header">
         <h2>Patients</h2>
-        {/* TODO: Add search input field */}
         <input
           type="text"
           placeholder="Search patients..."
           className="search-input"
-          // TODO: Add value, onChange handlers
+          value={searchTerm}
+          onChange={handleSearch}
         />
       </div>
 
@@ -71,11 +89,37 @@ const PatientList = ({ onSelectPatient }) => {
       {/* Map through patients and display them */}
       {/* Each patient should be clickable and call onSelectPatient with patient.id */}
       <div className="patient-list">
-        {/* Your implementation here */}
-        <div className="placeholder">
-          <p>Patient list will be displayed here</p>
-          <p>Implement the patient list rendering</p>
-        </div>
+        {patients && patients.length > 0 ? (
+          patients.map((patient) => (
+            <div
+              key={patient.id}
+              className="patient-card"
+              onClick={() => onSelectPatient(patient.id)}
+            >
+              <h3 className="patient-name">{patient.name}</h3>
+              <p className="patient-id">ID: {patient.id}</p>
+              <div className="patient-info">
+                <p className="patient-info-item">Age: {calculateAge(patient.dateOfBirth)}</p>
+                <p className="patient-info-item">Gender: {patient.gender}</p>
+                <p className="patient-info-item">email: {patient.email}</p>
+                <p className="patient-info-item">Phone: {patient.phone}</p>
+                <p className="patient-info-item patient-address">
+                  Address: {patient.address.split(', ').map((part, index, array) => (
+                    <span key={index}>
+                      {part}
+                      {index < array.length - 1 && <>,<br /></>}
+                    </span>
+                  ))}
+                </p>   
+                <p className="patient-info-item">Member Since: {formatYear(patient.createdAt)}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="placeholder">
+            <p>No patients found.</p>
+          </div>
+        )}
       </div>
 
       {/* TODO: Implement pagination controls */}
@@ -90,5 +134,3 @@ const PatientList = ({ onSelectPatient }) => {
 };
 
 export default PatientList;
-
-

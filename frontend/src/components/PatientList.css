@@ -65,24 +65,22 @@
   margin-bottom: 0.25rem;
 }
 
-.patient-id {
-  font-size: 0.85rem;
-  color: #666;
-  font-family: 'Courier New', monospace;
-}
-
 .patient-info {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.patient-info-item {
+.patient-id, .patient-info-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
   color: #666;
+}
+
+.patient-address {
+  flex-wrap: wrap;
 }
 
 .patient-wallet {
@@ -99,6 +97,12 @@
   text-align: center;
   padding: 3rem;
   font-size: 1.1rem;
+}
+
+.mono {
+  font-size: 0.85rem;
+  color: #666;
+  font-family: 'Courier New', monospace;
 }
 
 .error {
