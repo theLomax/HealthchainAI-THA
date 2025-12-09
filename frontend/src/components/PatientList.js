@@ -14,17 +14,12 @@ const PatientList = ({ onSelectPatient }) => {
   const [expandedCards, setExpandedCards] = useState(new Set());
   const debouncedSearchTerm = useDebounce(searchTerm, 350);
 
-  // TODO: Implement the fetchPatients function
-  // This function should:
-  // 1. Call apiService.getPatients with appropriate parameters (page, limit, search)
-  // 2. Update the patients state with the response data
-  // 3. Update the pagination state
-  // 4. Handle loading and error states
   const fetchPatients = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      // TODO: Call API and update state
+      // Error test for layout and styling
+      // throw new Error('Failed to load patients - testing error state');}
       const data = await apiService.getPatients({
         page: currentPage,
         limit: 10,
@@ -43,16 +38,13 @@ const PatientList = ({ onSelectPatient }) => {
     fetchPatients();
   }, [fetchPatients]);
 
-  // Reset to the first page whenever a new search is performed
+
   useEffect(() => {
-    // We check debouncedSearchTerm to avoid resetting on initial load
     if (debouncedSearchTerm !== '') {
       setCurrentPage(1);
     }
   }, [debouncedSearchTerm]);
 
-  // TODO: Implement search functionality
-  // Add a debounce or handle search input changes
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -147,9 +139,7 @@ const PatientList = ({ onSelectPatient }) => {
         />
       </div>
 
-      {/* TODO: Implement patient list display */}
-      {/* Map through patients and display them */}
-      {/* Each patient should be clickable and call onSelectPatient with patient.id */}
+      {/* Clickable patient list */}
       <div className="patient-list">
         {loading ? (
           <div className="loading">Loading patients...</div>
