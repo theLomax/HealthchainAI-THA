@@ -26,3 +26,11 @@ export const formatYear = (dateString) => {
   if (!dateString) return '';
   return new Date(dateString).getFullYear();
 };
+
+
+export const usDOB = (dateString) => {
+  if (!dateString) return '';
+  const [year, month, day] = dateString.split('-');
+  const dobConverted = `${month}/${day}/${year}`;
+  return dobConverted;
+}

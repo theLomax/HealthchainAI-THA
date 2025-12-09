@@ -139,7 +139,7 @@ const PatientList = ({ onSelectPatient }) => {
               onClick={() => onSelectPatient(patient.id)}
             >
               <h3 className="patient-name">{patient.name}</h3>
-              <p className="patient-id">ID: <span className="value">{patient.id}</span></p>
+              <p className="patient-id">ID: <span>{patient.id}</span></p>
             </div>
           ))
         ) : (
