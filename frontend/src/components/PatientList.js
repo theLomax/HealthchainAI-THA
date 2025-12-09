@@ -56,22 +56,6 @@ const PatientList = ({ onSelectPatient }) => {
     setSearchTerm(e.target.value);
   };
 
-  if (loading) {
-    return (
-      <div className="patient-list-container">
-        <div className="loading">Loading patients...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="patient-list-container">
-        <div className="error">Error: {error}</div>
-      </div>
-    );
-  }
-
   return (
     <div className="patient-list-container">
       <div className="patient-list-header">
@@ -89,7 +73,11 @@ const PatientList = ({ onSelectPatient }) => {
       {/* Map through patients and display them */}
       {/* Each patient should be clickable and call onSelectPatient with patient.id */}
       <div className="patient-list">
-        {patients && patients.length > 0 ? (
+        {loading ? (
+          <div className="loading">Loading patients...</div>
+        ) : error ? (
+          <div className="error">Error: {error}</div>
+        ) : patients && patients.length > 0 ? (
           patients.map((patient) => (
             <div
               key={patient.id}
