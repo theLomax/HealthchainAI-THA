@@ -16,12 +16,11 @@ const PatientList = ({ onSelectPatient }) => {
     setLoading(true);
     setError(null);
     try {
-      // Error test for layout and styling
-      // throw new Error('Failed to load patients - testing error state');}
       const data = await apiService.getPatients({
         page: currentPage,
         limit: 10,
         search: debouncedSearchTerm,
+        // Debounced search input that was triggering unmounting
       });
       setPatients(data.patients || []);
       setPagination(data.pagination || null);
@@ -137,6 +136,7 @@ const PatientList = ({ onSelectPatient }) => {
               key={patient.id}
               className="patient-card"
               onClick={() => onSelectPatient(patient.id)}
+              // Click handler to pass patientId to parent for detail view
             >
               <h3 className="patient-name">{patient.name}</h3>
               <p className="patient-id">ID: <span>{patient.id}</span></p>

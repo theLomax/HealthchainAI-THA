@@ -1,9 +1,9 @@
 /**
- * Calculates patient age.
  * @param {string} dateString
  * @returns {number | string}
 */
 
+// Calculates patient age.(never implemented)
 export const calculateAge = (dateString) => {
   if (!dateString) return '';
   const birthDate = new Date(dateString);
@@ -16,18 +16,13 @@ export const calculateAge = (dateString) => {
   return age;
 };
 
-/**
- * Filter date string to year only
- * @param {string} dateString
- * @returns {number | string}
- */
-
+// Filter date string to year only ( never implemented )
 export const formatYear = (dateString) => {
   if (!dateString) return '';
   return new Date(dateString).getFullYear();
 };
 
-
+// Convert date to US format: MM/DD/YYYY
 export const usDOB = (dateString) => {
   if (!dateString) return '';
   const [year, month, day] = dateString.split('-');

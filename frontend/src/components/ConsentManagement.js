@@ -21,8 +21,6 @@ const ConsentManagement = ({ account }) => {
       setLoading(true);
       setError(null);
       try {
-        // Error test for layout and styling
-        // throw new Error('Failed to load consents - testing error state');
         const status = filterStatus === 'all' ? null : filterStatus;
         const data = await apiService.getConsents(null, status);
         setConsents(data.consents || []);
@@ -44,13 +42,13 @@ const ConsentManagement = ({ account }) => {
     }
 
     try {
-      // 1. Create a message to sign
+      // Create a message to sign
       const message = `I consent to: ${formData.purpose} for patient: ${formData.patientId}`;
 
-      // 2. Sign the message using signMessage
+      // Sign the message using signMessage
       const signature = await signMessage(message);
 
-      // 3. Call apiService.createConsent with consent data and signature
+      // Call apiService.createConsent with consent data and signature
       await apiService.createConsent({
         patientId: formData.patientId,
         purpose: formData.purpose,
@@ -58,7 +56,7 @@ const ConsentManagement = ({ account }) => {
         signature: signature
       });
 
-      // 4. Refresh consents list
+      // Refresh consents list
       const status = filterStatus === 'all' ? null : filterStatus;
       const data = await apiService.getConsents(null, status);
       setConsents(data.consents || []);

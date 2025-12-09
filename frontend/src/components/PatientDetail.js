@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './PatientDetail.css';
 import { apiService } from '../services/apiService';
-import { usDOB, formatYear } from '../utils/dateUtils';
+import { usDOB } from '../utils/dateUtils';
 
 const PatientDetail = ({ patientId, onBack }) => {
   const [patient, setPatient] = useState(null);
@@ -22,6 +22,7 @@ const PatientDetail = ({ patientId, onBack }) => {
           apiService.getPatient(patientId),
           apiService.getPatientRecords(patientId)
         ]);
+        // Promise.all() for parallel data fetching
 
         setPatient(patientData);
         setRecords(recordsData.records || []);
@@ -69,6 +70,7 @@ const PatientDetail = ({ patientId, onBack }) => {
             <p className="patient-info-item"><span className="info-label">email:</span> <span className="info-value">{patient.email}</span></p>
 
             <p className="patient-info-item"><span className="info-label">DOB:</span> <span className="info-value">{usDOB(patient.dateOfBirth)}</span></p>
+            {/* created usDOB() utility for date conversion to match date format in medical records */}
 
             <p className="patient-info-item"><span className="info-label">Gender:</span> <span className="info-value">{patient.gender}</span></p>
 

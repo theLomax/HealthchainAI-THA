@@ -39,7 +39,7 @@ const StatsDashboard = () => {
 
     fetchStats();
 
-    // Set up interval for real-time updates every 30 seconds
+    // Set interval to update every 30 seconds
     const interval = setInterval(fetchStats, 30000);
 
     return () => clearInterval(interval);
@@ -59,7 +59,7 @@ const StatsDashboard = () => {
       try {
         const data = await apiService.getStatsHistory(filterFromDate || null, filterToDate || null);
 
-        // Add small delay to let chart calculate layout before rendering
+        // Add small delay to let chart calculate layout before rendering - this prevents layout shift
         await new Promise(resolve => setTimeout(resolve, 100));
 
         setHistoryData(data.history || []);
@@ -116,6 +116,7 @@ const StatsDashboard = () => {
             key={metric.key}
             className={`stat-card ${selectedMetrics.includes(metric.key) ? 'primary' : ''}`}
             onClick={() => toggleMetric(metric.key)}
+            // Click card to add metric to graph
             style={{ cursor: 'pointer' }}
           >
             <div className="stat-label">{metric.label}</div>

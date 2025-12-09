@@ -75,6 +75,7 @@ const TransactionHistory = ({ account }) => {
     });
   }, [allTransactions, debouncedAddress, filterStatus, filterType, filterDateFrom, filterDateTo]);
 
+  // Truncate address for filter label
   const formatAddress = (address) => {
     if (!address) return '';
     return `${address.slice(0, 8)}...${address.slice(-6)}`;
