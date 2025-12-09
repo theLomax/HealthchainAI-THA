@@ -9,7 +9,7 @@ const healthCheck = (req, res) => {
 const getStats = async (req, res) => {
   try {
     const data = await loadMockData();
-    
+
     const stats = {
       totalPatients: (data.patients || []).length,
       totalRecords: (data.records || []).length,
@@ -18,8 +18,41 @@ const getStats = async (req, res) => {
       pendingConsents: (data.consents || []).filter(c => c.status === 'pending').length,
       totalTransactions: (data.transactions || []).length
     };
-    
+
     res.json(stats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get historical statistics with optional date range filtering
+const getStatsHistory = async (req, res) => {
+  try {
+    const data = await loadMockData();
+    const { fromDate, toDate } = req.query;
+
+    let history = data.statsHistory || [];
+
+    // Filter by date range if provided
+    if (fromDate || toDate) {
+      history = history.filter(stat => {
+        const statDate = new Date(stat.timestamp);
+
+        if (fromDate) {
+          const from = new Date(fromDate);
+          if (statDate < from) return false;
+        }
+
+        if (toDate) {
+          const to = new Date(toDate);
+          if (statDate > to) return false;
+        }
+
+        return true;
+      });
+    }
+
+    res.json({ history });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -27,7 +60,8 @@ const getStats = async (req, res) => {
 
 module.exports = {
   healthCheck,
-  getStats
+  getStats,
+  getStatsHistory
 };
 
 

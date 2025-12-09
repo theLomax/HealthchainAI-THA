@@ -10,7 +10,8 @@ const healthController = require('../controllers/healthController');
 
 // Health routes
 router.get('/health', healthController.healthCheck);
-router.get('/stats', healthController.getStats);
+router.get('/health/stats', healthController.getStats);
+router.get('/health/stats/history', healthController.getStatsHistory);
 
 // Patient routes
 router.get('/patients', patientsController.getPatients);

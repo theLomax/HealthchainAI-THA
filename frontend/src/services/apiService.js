@@ -81,7 +81,16 @@ export const apiService = {
 
   // Statistics
   getStats: async () => {
-    const response = await api.get('/stats');
+    const response = await api.get('/health/stats');
+    return response.data;
+  },
+
+  getStatsHistory: async (fromDate = null, toDate = null) => {
+    const params = {};
+    if (fromDate) params.fromDate = fromDate;
+    if (toDate) params.toDate = toDate;
+
+    const response = await api.get('/health/stats/history', { params });
     return response.data;
   },
 };

@@ -5,13 +5,21 @@
 .stats-dashboard-container h2 {
   color: #333;
   font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stats-subtitle {
+  color: #666;
+  font-size: 0.9rem;
   margin-bottom: 2rem;
+  font-style: italic;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .stat-card {
@@ -82,6 +90,100 @@
   font-style: italic;
 }
 
+.chart-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.chart-header h3 {
+  color: #333;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.time-range-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.date-input {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.date-separator {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0.25rem;
+}
+
+.clear-filter-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.clear-filter-button:hover {
+  background: #667eea;
+  color: white;
+}
+
+.recharts-default-legend {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.chart-container {
+  min-height: 400px;
+  position: relative;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.chart-loading, .chart-placeholder {
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+  font-size: 1rem;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-loading {
+  font-style: italic;
+}
+
 @media (max-width: 768px) {
   .stats-dashboard-container {
     padding: 1rem;
@@ -89,6 +191,28 @@
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+
+  .chart-section {
+    padding: 1rem;
+  }
+
+  .chart-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .time-range-filters {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .date-input {
+    width: 100%;
+  }
+
+  .clear-filter-button {
+    width: 100%;
   }
 }
 
