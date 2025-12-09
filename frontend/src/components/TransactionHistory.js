@@ -10,6 +10,8 @@ const TransactionHistory = ({ account }) => {
   const [filterAddress, setFilterAddress] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterType, setFilterType] = useState('all');
+  const [filterDateFrom, setFilterDateFrom] = useState('');
+  const [filterDateTo, setFilterDateTo] = useState('');
 
   const debouncedAddress = useDebounce(filterAddress, 300);
 
@@ -52,9 +54,26 @@ const TransactionHistory = ({ account }) => {
         return false;
       }
 
+      // Filter by date range
+      if (filterDateFrom || filterDateTo) {
+        const txDate = new Date(tx.timestamp);
+
+        if (filterDateFrom) {
+          const fromDate = new Date(filterDateFrom);
+          fromDate.setHours(0, 0, 0, 0);
+          if (txDate < fromDate) return false;
+        }
+
+        if (filterDateTo) {
+          const toDate = new Date(filterDateTo);
+          toDate.setHours(23, 59, 59, 999);
+          if (txDate > toDate) return false;
+        }
+      }
+
       return true;
     });
-  }, [allTransactions, debouncedAddress, filterStatus, filterType]);
+  }, [allTransactions, debouncedAddress, filterStatus, filterType, filterDateFrom, filterDateTo]);
 
   const formatAddress = (address) => {
     if (!address) return '';
@@ -102,13 +121,15 @@ const TransactionHistory = ({ account }) => {
     setFilterAddress('');
     setFilterStatus('all');
     setFilterType('all');
+    setFilterDateFrom('');
+    setFilterDateTo('');
   };
 
   const handleInputChange = (e) => {
     setFilterAddress(e.target.value);
   };
 
-  const isFilterActive = filterAddress || filterStatus !== 'all' || filterType !== 'all';
+  const isFilterActive = filterAddress || filterStatus !== 'all' || filterType !== 'all' || filterDateFrom || filterDateTo;
 
   return (
     <div className="transaction-history-container">
@@ -148,6 +169,20 @@ const TransactionHistory = ({ account }) => {
             <option value="confirmed">Confirmed</option>
             <option value="pending">Pending</option>
           </select>
+          <input
+            type="date"
+            value={filterDateFrom}
+            onChange={(e) => setFilterDateFrom(e.target.value)}
+            className="date-input"
+            placeholder="From date"
+          />
+          <input
+            type="date"
+            value={filterDateTo}
+            onChange={(e) => setFilterDateTo(e.target.value)}
+            className="date-input"
+            placeholder="To date"
+          />
           <button
             onClick={handleClearFilter}
             className="filter-button clear"
@@ -157,25 +192,28 @@ const TransactionHistory = ({ account }) => {
         </div>
       </div>
 
-      {isFilterActive && (
-        <div className="active-filters">
-          {filterAddress && (
-            <span className="filter-tag">
-              Address: {formatAddress(filterAddress)}
-            </span>
-          )}
-          {filterType !== 'all' && (
-            <span className="filter-tag">
-              Type: {filterType.replace('_', ' ')}
-            </span>
-          )}
-          {filterStatus !== 'all' && (
-            <span className="filter-tag">
-              Status: {filterStatus}
-            </span>
-          )}
-        </div>
-      )}
+      <div className="active-filters">
+        {filterAddress && (
+          <span className="filter-tag">
+            Address: {formatAddress(filterAddress)}
+          </span>
+        )}
+        {filterType !== 'all' && (
+          <span className="filter-tag">
+            Type: {filterType.replace('_', ' ')}
+          </span>
+        )}
+        {filterStatus !== 'all' && (
+          <span className="filter-tag">
+            Status: {filterStatus}
+          </span>
+        )}
+        {(filterDateFrom || filterDateTo) && (
+          <span className="filter-tag">
+            Date: {filterDateFrom || '...'} to {filterDateTo || '...'}
+          </span>
+        )}
+      </div>
 
       <div className="transactions-list">
         {filteredTransactions.length === 0 ? (

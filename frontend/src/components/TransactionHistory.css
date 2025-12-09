@@ -21,6 +21,7 @@
   gap: 0.5rem;
   align-items: center;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .wallet-input {
@@ -91,6 +92,22 @@
 }
 
 .filter-select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.date-input {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  min-width: 150px;
+}
+
+.date-input:focus {
   outline: none;
   border-color: #667eea;
 }
@@ -283,6 +300,11 @@
   }
 
   .filter-select {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .date-input {
     width: 100%;
     min-width: unset;
   }
