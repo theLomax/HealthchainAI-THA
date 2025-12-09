@@ -154,7 +154,7 @@ const PatientList = ({ onSelectPatient }) => {
         {loading ? (
           <div className="loading">Loading patients...</div>
         ) : error ? (
-          <div className="error">Error: {error}</div>
+          <div className="error"><strong>Error: {error}</strong></div>
         ) : patients && patients.length > 0 ? (
           patients.map((patient) => {
             const isExpanded = expandedCards.has(patient.id);
