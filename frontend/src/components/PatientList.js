@@ -130,7 +130,7 @@ const PatientList = ({ onSelectPatient }) => {
         {loading ? (
           <div className="loading">Loading patients...</div>
         ) : error ? (
-          <div className="error"><strong>Error: {error}</strong></div>
+          <div className="error">Error: {error}</div>
         ) : patients && patients.length > 0 ? (
           patients.map((patient) => (
             <div
