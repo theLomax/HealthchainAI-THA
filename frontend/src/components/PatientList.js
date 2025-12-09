@@ -170,7 +170,7 @@ const PatientList = ({ onSelectPatient }) => {
                         </span>
                       ))}
                     </p>
-                    <p className="patient-info-item">Member Since: {formatYear(patient.createdAt)}</p>
+                    <p className="patient-info-item">Patient Since: {formatYear(patient.createdAt)}</p>
                   </div>
                 )}
               </div>
