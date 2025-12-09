@@ -46,6 +46,7 @@
   transition: all 0.3s;
   --infoGap: 0.5rem;
   --infoColor: #666;
+  filter: drop-shadow(.15rem .2rem 0 color-mix(in srgb, var(--infoColor), transparent 66%));
 }
 
 .patient-card:hover {
