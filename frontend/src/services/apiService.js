@@ -17,8 +17,9 @@ export const apiService = {
   },
 
   // Patients
-  getPatients: async (page = 1, limit = 10, search = '') => {
-    const response = await api.get('/patients', {
+  getPatients: async (params = {}) => {
+    const { page = 1, limit = 10, search = '' } = params;
+    const response = await api.get('/patients', { 
       params: { page, limit, search },
     });
     return response.data;
@@ -84,5 +85,3 @@ export const apiService = {
     return response.data;
   },
 };
-
-
