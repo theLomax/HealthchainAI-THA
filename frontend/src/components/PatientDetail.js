@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './PatientDetail.css';
 import { apiService } from '../services/apiService';
+import { calculateAge, formatYear } from '../utils/dateUtils';
 
 const PatientDetail = ({ patientId, onBack }) => {
   const [patient, setPatient] = useState(null);
@@ -8,15 +9,20 @@ const PatientDetail = ({ patientId, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // TODO: Implement fetchPatientData function
-  // This should fetch both patient details and their records
+  // Fetch patient data and records
   useEffect(() => {
     const fetchPatientData = async () => {
       setLoading(true);
+      setError(null);
       try {
-        // TODO: Fetch patient data using apiService.getPatient(patientId)
-        // TODO: Fetch patient records using apiService.getPatientRecords(patientId)
-        // TODO: Update state with fetched data
+        // Fetch patient data and records in parallel
+        const [patientData, recordsData] = await Promise.all([
+          apiService.getPatient(patientId),
+          apiService.getPatientRecords(patientId)
+        ]);
+
+        setPatient(patientData);
+        setRecords(recordsData || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -57,23 +63,30 @@ const PatientDetail = ({ patientId, onBack }) => {
         {/* Show: name, email, dateOfBirth, gender, phone, address, walletAddress */}
         <div className="patient-info-section">
           <h2>Patient Information</h2>
-          {/* Your implementation here */}
-          <div className="placeholder">
-            <p>Display patient information here</p>
-          </div>
+          <h3 className='patient-name'>{patient.name}</h3>
+          <div className='patient-info-grid'>
+            <p className="patient-id"><span className="info-label">ID:</span> <span className="info-value">{patient.id}</span></p>
+            <p className="patient-info-item"><span className="info-label">Age:</span> <span className="info-value">{calculateAge(patient.dateOfBirth)}</span></p>
+            <p className="patient-info-item"><span className="info-label">Gender:</span> <span className="info-value">{patient.gender}</span></p>
+            <p className="patient-info-item"><span className="info-label">email:</span> <span className="info-value">{patient.email}</span></p>
+            <p className="patient-info-item"><span className="info-label">Phone:</span> <span className="info-value">{patient.phone}</span></p>
+            <p className="patient-info-item patient-address">
+            <span className="info-label">Address:</span> <span className="info-value">{patient.address}</span>
+            </p>
+            <p className="patient-info-item"><span className="info-label">Patient Since:</span> <span className="info-value">{formatYear(patient.createdAt)}</span></p>
+            <p className="patient-info-item"><span className="info-label">Wallet:</span> <span className='info-value wallet'>{patient.walletAddress}</span></p>
+            </div>
         </div>
 
         {/* TODO: Display patient records */}
         {/* Show list of medical records with: type, title, date, doctor, hospital, status */}
         <div className="patient-records-section">
           <h2>Medical Records ({records.length})</h2>
-          {/* Your implementation here */}
-          <div className="placeholder">
-            <p>Display medical records here</p>
+          <div className="patient-records-list">
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
