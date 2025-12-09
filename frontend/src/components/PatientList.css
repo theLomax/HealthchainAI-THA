@@ -87,27 +87,7 @@
     transform: translateY(0);
   }
 }
-.patient-info-item {
-  display: flex;
-  align-items: center;
-  gap: var(--infoGap);
-  font-size: 0.9rem;
-  color: var(--infoColor);
-}
 
-.patient-address {
-  flex-wrap: wrap;
-}
-
-.patient-wallet {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
-  font-size: 0.85rem;
-  color: #999;
-  font-family: 'Courier New', monospace;
-  word-break: break-all;
-}
 
 .loading, .error {
   text-align: center;
