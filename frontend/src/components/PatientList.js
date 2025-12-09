@@ -56,6 +56,71 @@ const PatientList = ({ onSelectPatient }) => {
     setSearchTerm(e.target.value);
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination?.totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const renderPageNumbers = () => {
+    if (!pagination) return null;
+
+    const { currentPage: current, totalPages } = pagination;
+    const pageNumbers = [];
+    const maxPagesToShow = 5;
+
+    let startPage = Math.max(1, current - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    if (endPage - startPage < maxPagesToShow - 1) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    if (startPage > 1) {
+      pageNumbers.push(
+        <button
+          key={1}
+          onClick={() => handlePageChange(1)}
+          className="pagination-btn"
+        >
+          1
+        </button>
+      );
+      if (startPage > 2) {
+        pageNumbers.push(<span key="ellipsis-start" className="pagination-ellipsis">...</span>);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`pagination-btn ${i === current ? 'active' : ''}`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pageNumbers.push(<span key="ellipsis-end" className="pagination-ellipsis">...</span>);
+      }
+      pageNumbers.push(
+        <button
+          key={totalPages}
+          onClick={() => handlePageChange(totalPages)}
+          className="pagination-btn"
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <div className="patient-list-container">
       <div className="patient-list-header">
@@ -110,11 +175,31 @@ const PatientList = ({ onSelectPatient }) => {
         )}
       </div>
 
-      {/* TODO: Implement pagination controls */}
-      {/* Show pagination buttons if pagination data is available */}
-      {pagination && (
+      {/* Pagination controls */}
+      {pagination && pagination.totalPages > 1 && (
         <div className="pagination">
-          {/* Your pagination implementation here */}
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="pagination-btn pagination-prev"
+          >
+            Previous
+          </button>
+
+          {renderPageNumbers()}
+
+          <div className="pagination-info">
+            Page {currentPage} of {pagination.totalPages} <em>({pagination.total} patients)</em>
+          </div>
+          
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === pagination.totalPages}
+            className="pagination-btn pagination-next"
+          >
+            Next
+          </button>
         </div>
       )}
     </div>
